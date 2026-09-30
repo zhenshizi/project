@@ -1,0 +1,345 @@
+/* 全体リセット */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #FDF9F6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* アプリコンテナ */
+.app-container {
+    width: 360px;
+    height: 740px;
+    background-color: #FDF9F6;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* ヘッダー */
+.app-header {
+    padding: 16px 16px 10px;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 16px;
+    font-weight: normal;
+    color: #444;
+}
+
+/* メインコンテンツエリア */
+.app-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 16px 85px; /* 下部ナビゲーションと被らないよう余白を調整 */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ユーザープロフィール（左：画像 / 右：メール） */
+.user-profile-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 4px 8px;
+}
+
+.user-avatar-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #DDE2E5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.user-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-email {
+    font-size: 13px;
+    color: #777;
+    word-break: break-all;
+}
+
+/* プロフィール編集ボタン */
+.btn-profile-edit {
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #444;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    text-decoration: none;
+}
+
+.btn-profile-edit .icon {
+    font-size: 14px;
+    color: #777;
+}
+
+/* 所属している共有IDカード（ピンク背景） */
+.shared-id-card {
+    background-color: #FDE2E4;
+    border-radius: 6px;
+    padding: 10px 12px;
+    text-align: center;
+}
+
+.shared-id-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.shared-id-value {
+    font-weight: bold;
+}
+
+.shared-id-desc {
+    font-size: 10px;
+    color: #777;
+    line-height: 1.35;
+}
+
+/* フォームカード */
+.form-card {
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.card-header-row.margin-top {
+    margin-top: 10px;
+}
+
+.card-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-sub-label {
+    font-size: 11px;
+    color: #888;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}
+
+.custom-input {
+    width: 100%;
+    background-color: #FAF8F5;
+    border: 1px solid #EAE0D5;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+    color: #333;
+    outline: none;
+}
+
+.custom-input::placeholder {
+    color: #A9A9A9;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+/* ピンク色の「とうろく」ボタン */
+.btn-primary {
+    width: 60%;
+    background-color: #FF708A;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    color: #FFF;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(255, 112, 138, 0.3);
+}
+
+.btn-primary:active {
+    opacity: 0.9;
+}
+
+/* ログアウトエリア */
+.logout-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.btn-logout {
+    width: 50%;
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    text-decoration: none;
+}
+
+.btn-logout .icon {
+    font-size: 13px;
+    color: #777;
+}
+
+/* ナビゲーション関連の画像サイズ */
+.nav-item img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-item.active img {
+    height: 44px;
+}
+
+/* リンクボタンの共通調整 */
+a.btn-profile-edit,
+a.btn-logout {
+    text-decoration: none;
+    display: flex;
+    }
+    
+    /* ==========================================
+   共通CSSのエラー回避用：ナビゲーションバーの再定義
+   ========================================== */
+.bottom-nav {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 70px !important;
+  background-color: #FFFCDB !important;
+  border-top: 1.5px solid #F9E2B5 !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  padding: 0 6px !important;
+  z-index: 10 !important;
+}
+
+.nav-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  padding: 4px !important;
+  transition: transform 0.15s ease !important;
+}
+
+.nav-item:active {
+  transform: scale(0.92) !important;
+}
+
+.nav-icon {
+  width: 58px !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* 共有ID登録ポップアップ */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 18px;
+  text-align: center;
+  width: 80%;
+  max-width: 320px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-content h2 {
+  color: #ff6b81;
+  margin-bottom: 15px;
+}
+
+.popup-email,
+.popup-id {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.close-popup-btn {
+  background: #ff6b81;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+

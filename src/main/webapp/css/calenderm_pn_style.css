@@ -1,0 +1,223 @@
+/* メインコンテンツエリア */
+.app-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px 80px;
+    gap: 8px;
+    overflow-y: auto;
+}
+
+/* 上部予算バナー */
+.budget-banner {
+    background-color: #FFF2F2;
+    border: 1px solid #FFE2E2;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 11px;
+    color: #444;
+    flex-shrink: 0;
+}
+
+.budget-banner .highlight {
+    font-size: 13px;
+    color: #333;
+}
+
+/* 収支カード群（バナーの下・カレンダーの上に2列で配置） */
+.summary-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2列配置 */
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.summary-card {
+    background-color: #FFF;
+    border-radius: 6px;
+    padding: 6px 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 38px;
+}
+
+/* 「現在までの収支結果」は横いっぱいに表示 */
+.summary-card.full-width {
+    grid-column: span 2;
+}
+
+.card-badge {
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    width: fit-content;
+}
+
+.card-amount {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.card-amount .unit {
+    font-size: 8px;
+    font-weight: normal;
+}
+
+/* カード配色 */
+.card-income { border: 1px solid #E2F0D9; }
+.card-income .card-badge { background-color: #E2F0D9; color: #385723; }
+.card-income .card-amount { color: #385723; }
+
+.card-fixed { border: 1px solid #DEEBF7; }
+.card-fixed .card-badge { background-color: #DEEBF7; color: #1F4E79; }
+.card-fixed .card-amount { color: #1F4E79; }
+
+.card-variable { border: 1px solid #FCE4D6; }
+.card-variable .card-badge { background-color: #FCE4D6; color: #C65911; }
+.card-variable .card-amount { color: #C65911; }
+
+.card-saving { border: 1px solid #EAE6F0; }
+.card-saving .card-badge { background-color: #EAE6F0; color: #7030A0; }
+.card-saving .card-amount { color: #7030A0; }
+
+.card-result { border: 1px solid #FCE4D6; background-color: #FFF; }
+.card-result .card-badge { background-color: #FCE4D6; color: #C65911; font-size: 8px; }
+.card-result .card-amount { color: #C65911; }
+
+
+/* カレンダーエリア（1 : 1.414 白銀比に設定） */
+.calendar-section {
+    width: 100%;
+    aspect-ratio: 1.414 / 1; /* 横 1.414 : 縦 1 の白銀比 */
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    flex-shrink: 0;
+}
+
+.calendar-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 10px;
+    color: #555;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    color: #000;
+    font-weight: bold;
+}
+
+/* カレンダーテーブル */
+.calendar-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.calendar-table th,
+.calendar-table td {
+    border: 1px solid #F0EAE1;
+    text-align: left;
+    vertical-align: top;
+    padding: 0;
+    position: relative;
+}
+
+.calendar-table th {
+    font-size: 9px;
+    color: #555;
+    font-weight: normal;
+    height: 14px;
+    background-color: #FAF8F5;
+    text-align: center;
+}
+
+.calendar-table th.sat,
+.calendar-table td.sat .date-num { color: #2B5B84; }
+
+.calendar-table th.sun,
+.calendar-table td.sun .date-num { color: #C00000; }
+
+.calendar-day-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 36px;
+    position: relative;
+    box-sizing: border-box;
+    padding: 2px 4px;
+    text-decoration: none;
+}
+
+.date-num {
+    font-size: 9px;
+    display: block;
+    text-align: left;
+}
+
+/* 〇ラベル（右下配置＆パステル丸） */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 3px;
+    right: 4px;
+    margin: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dot-pink   { background-color: #F8B195; }
+.dot-green  { background-color: #A8E6CF; }
+.dot-orange { background-color: #FFD3B6; }
+.dot-gray   { background-color: #E8E8E8; }
+.dot-blue   { background-color: #A8D8EA; }
+.dot-purple { background-color: #DAD6F1; }
+
+/* 下部GIF画像エリア（余白の中央配置 ＆ サイズ拡大） */
+.status-cat-container {
+    width: 100%;
+    flex: 1; /* カレンダー下の残りの空きスペースをすべて使う */
+    min-height: 100px; /* 最低限の高さを確保 */
+    display: flex;
+    justify-content: center; /* 左右中央寄せ */
+    align-items: center;     /* 上下中央寄せ */
+    margin: 0;
+}
+
+.status-cat-img {
+    max-width: 90%;
+    max-height: 120px; /* 猫のサイズを少し大きく（元の70px→120px） */
+    object-fit: contain;
+}

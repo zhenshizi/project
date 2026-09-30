@@ -1,0 +1,482 @@
+/* ==========================================
+   全体の基本設定（共通）
+   ========================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* フォント読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
+
+/* 全体フォント設定 */
+body {
+  font-family: 'Kosugi Maru', 'Hiragino Sans', 'Meiryo', sans-serif;
+  background-color: #FDF9F6;
+  color: #333;
+  font-weight: 400;
+}
+
+/* 見出し（タイトル・セクション名）を太文字に */
+h1, h2, h3,
+.page-title,
+.card-label,
+.shared-id-title {
+  font-weight: 700 !important;
+}
+
+/* h1 の基本スタイル（サイズ統一） */
+h1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* ==========================================
+   アプリ共通コンテナ
+   ========================================== */
+.app-container {
+  width: 360px;
+  height: 100vh;          /* ★ min-height ではなく height: 100vh で高さを固定 */
+  background-color: #FAF8F5;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;       /* ★ コンテナ自体の溢れを防止（スクロールは app-main で行う） */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  margin: 0 auto;
+}
+/* ==========================================
+   ヘッダー（共通）
+   ========================================== */
+.page-title {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  padding: 16px 0 10px;
+  margin: 0;
+}
+
+/* ==========================================
+   メインコンテンツ（共通）
+   ========================================== */
+.app-main,
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 75px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================
+   下部フッターナビゲーション（共通）
+   ========================================== */
+.bottom-nav {
+  position: absolute; /* 親要素 (.app-container) の下部に固定 */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #FFFCDB; /* 薄い黄色 */
+  border-top: 2px solid #F9E2B5;
+  display: flex;
+  justify-content: space-evenly; /* 各ボタンアイコンを完全均等配置*/
+  align-items: center;
+  padding: 0 4px;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+/* 各ボタンアイコンの領域幅を均等化（5等分） */
+.bottom-nav > .nav-item,
+.bottom-nav > .dropdown-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* メインコンテンツがナビゲーションと被らないよう下部余白を確保 */
+.app-main,
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 80px; /* 下部余白を70px〜80px程度に確保 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 4px;
+  transition: transform 0.15s ease;
+}
+
+.nav-item:active {
+  transform: scale(0.92);
+}
+
+.nav-icon {
+  width: 58px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ==========================================
+   ドロップアップメニュー（共通）
+   ========================================== */
+.dropdown-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropup-menu {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 12px;
+  width: 180px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #F9E2B5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.dropup-menu::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #FFFFFF transparent transparent transparent;
+}
+
+.dropup-item {
+  display: block;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #444;
+  text-decoration: none;
+  text-align: center;
+  border-bottom: 1px solid #FAF6F0;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.dropup-item:last-child {
+  border-bottom: none;
+}
+
+.dropup-item:hover,
+.dropup-item:active,
+.dropup-item.active {
+  background-color: #FFF9E6;
+  color: #B25A5A;
+  font-weight: bold;
+}
+
+.dropdown-wrapper:focus-within .dropup-menu {
+  display: block;
+}
+
+/* ==========================================
+   カテゴリカラー（日本語クラス名）
+   ========================================== */
+
+/* 収入（緑） */
+.給与,
+.収入その他 {
+  background-color: #C8E6C9;
+}
+
+/* 固定費（グレー） */
+.家賃,
+.ガス代,
+.電気代,
+.水道代,
+.通信費,
+.保険料,
+.教育費,
+.固定その他 {
+  background-color: #ECEFF1;
+}
+
+/* 変動費（ピンク） */
+.美容費,
+.医療費,
+.食費,
+.被服,
+.交際費,
+.交通費,
+.日用品,
+.趣味,
+.経費,
+.変動その他 {
+  background-color: #FFEBEE;
+}
+
+/* ==========================================
+   カテゴリアイコン
+   ========================================== */
+.cat-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ==========================================
+   カテゴリ名ラベル
+   ========================================== */
+.cat-label {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  display: inline-block;
+  color: #333;
+}
+
+/* ラベル色（収入） */
+.cat-label.給与,
+.cat-label.収入その他 {
+  background-color: #C8E6C9;
+}
+
+/* ラベル色（固定費） */
+.cat-label.家賃,
+.cat-label.ガス代,
+.cat-label.電気代,
+.cat-label.水道代,
+.cat-label.通信費,
+.cat-label.保険料,
+.cat-label.教育費,
+.cat-label.固定その他 {
+  background-color: #ECEFF1;
+}
+
+/* ラベル色（変動費） */
+.cat-label.美容費,
+.cat-label.医療費,
+.cat-label.食費,
+.cat-label.被服,
+.cat-label.交際費,
+.cat-label.交通費,
+.cat-label.日用品,
+.cat-label.趣味,
+.cat-label.経費,
+.cat-label.変動その他 {
+  background-color: #FFEBEE;
+}
+
+/* ==========================================
+   スクロールバー
+   ========================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF9E6;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #F9E2B5;
+  border-radius: 10px;
+  border: 2px solid #FFF9E6;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #F6D79C;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #F3DDAA;
+  border: 2px solid #FFF9E6;
+}
+
+* {
+  scrollbar-color: #F9E2B5 #FFF9E6;
+  scrollbar-width: thin;
+}
+
+/* ==========================================
+   だれの？ドロップダウン
+   ========================================== */
+.who-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.who-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #F9E2B5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  width: 140px;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.who-item {
+  display: block;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #444;
+  text-decoration: none;
+  text-align: center;
+  border-bottom: 1px solid #FAF6F0;
+}
+
+.who-item:last-child {
+  border-bottom: none;
+}
+
+.who-item:hover {
+  background-color: #FFF9E6;
+  color: #B25A5A;
+  font-weight: bold;
+}
+
+/* ヘッダー内の要素を左右に並べる設定 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 16px 10px;
+}
+
+.who-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 「だれの？」ボタン（.who-btn）のスタイル */
+.who-btn {
+  background-color: #FCE4EC;
+  color: #ff6b81;
+  border: 1px solid #F8BBD0;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ドロップダウンメニューの位置調整 */
+.who-menu {
+  display: none; /* who.js 等で表示制御 */
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #F9E2B5;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  width: 140px;
+  overflow: hidden;
+  z-index: 200;
+}
+
+/* ==========================================
+   円グラフ
+   ========================================== */
+/* 円グラフと同期する色セット */
+.color-food { background-color: #fca5a5; }      /* 食費 */
+.color-traffic { background-color: #fcd34d; }   /* 交通費 */
+.color-fixed { background-color: #fef08a; }     /* 固定費 */
+.color-hobby { background-color: #bbf7d0; }     /* 趣味 */
+.color-social { background-color: #bae6fd; }    /* 交際費 */
+.color-daily { background-color: #cbd5e1; }     /* 日用品 */
+.color-medical { background-color: #fed7aa; }   /* 医療費 */
+.color-beauty { background-color: #e9d5ff; }    /* 美容・衣服 */
+.color-other { background-color: #f5d0fe; }     /* その他 */
+
+/* 円グラフ＋カテゴリの配置 */
+.chart-section {
+  display: flex;
+  flex-direction: column; /* ← 横並びを縦並びに変更 */
+  align-items: center;    /* ← 中央寄せ */
+  gap: 16px;              /* ← グラフとカテゴリの間の余白 */
+}
+
+/* 円グラフのサイズ調整（中央寄せ） */
+.chart-container {
+  width: 220px;
+  margin: 0 auto;
+}
+
+
+.chart-section {
+  display: block !important;   /* ← flex を完全に無効化 */
+}
+
+.category-list {
+  display: grid !important;    /* ← grid を強制適用 */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 24px;
+  max-width: 300px;
+  margin: 0 auto ;
+}
+
+/* カテゴリリストを2列に並べる */
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ← 2列にする */
+  gap: 8px 24px; /* ← 行間と列間の余白 */
+  list-style: none;
+  padding: 0;
+  margin: 50px;
+  max-width: 300px; /* ← 中央寄せ＋幅制限（調整可） */
+}
+
+/* 各カテゴリ項目の整列 */
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+/* 「日間支出合計」「月間支出合計」「年間支出合計」の金額を右寄せに表示 */
+.total-amount {
+    text-align: right;
+}

@@ -1,0 +1,229 @@
+/* 基本設定（共通.css にあるため削除） */
+
+/* body（共通.css にあるため削除） */
+
+/* アプリ全体のコンテナ（共通.css にあるため削除） */
+
+/* ヘッダーエリア（style.css 固有） */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* タイトル＋だれの？を中央に */
+  position: relative;
+  padding: 16px 16px 6px;
+  margin-bottom: 0px;
+}
+
+/* 「だれの？」ボタン（共通.css にないので残す） */
+.who-btn {
+  display: none;
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  background-color: #fbe7f5;
+  color: #d946ef;
+  border: 1px solid #f472b6;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+body.is-shared .who-btn {
+  display: block;
+}
+
+/* メインコンテンツ（共通.css にあるため削除） */
+
+/* ==========================================
+   日付切り替え（薄黄色のドロップダウン）
+   ========================================== */
+.date-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.arrow-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 6px;
+}
+
+.date-picker-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fffde7;
+  border: 2px solid #f6d87c;
+  border-radius: 12px;
+  padding: 6px 14px 6px 18px;
+  min-width: 120px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.current-date {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+  pointer-events: none;
+}
+
+.date-picker-wrapper::after {
+  content: "";
+  display: inline-block;
+  margin-left: 10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #888;
+  pointer-events: none;
+}
+
+.year-select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: menulist;
+}
+
+.year-select option {
+  background-color: #fffde7;
+  color: #4a4a4a;
+}
+
+/* 支出合計カード（style.css 固有） */
+.total-card {
+  width: 100%;
+  max-width: 180px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  align-self: flex-start;
+}
+
+.total-label {
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.total-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.total-amount .currency {
+  font-size: 0.75rem;
+  font-weight: normal;
+}
+
+/* グラフ＆費目エリア（style.css 固有） */
+.chart-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.chart-container {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.dummy-chart {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    #fca5a5 0% 32.6%,
+    #fcd34d 32.6% 37.5%,
+    #fef08a 37.5% 77.9%,
+    #bbf7d0 77.9% 87.3%,
+    #bae6fd 87.3% 95.1%,
+    #cbd5e1 95.1% 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dummy-chart::after {
+  content: "";
+  width: 100px;
+  height: 100px;
+  background-color: #fffaf5;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.chart-center-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-center-text .sub {
+  font-size: 0.65rem;
+  color: #6b7280;
+}
+
+.chart-center-text .val {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.category-list {
+  list-style: none;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.color-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.category-name {
+  flex-grow: 1;
+  color: #374151;
+}
+
+.category-rate {
+  color: #4b5563;
+  font-weight: 500;
+}
+
+/* 下部ナビ（共通.css にあるため削除） */
+
+/* ドロップアップメニュー（共通.css にあるため削除） */

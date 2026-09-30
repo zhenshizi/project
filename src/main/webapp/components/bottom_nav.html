@@ -1,0 +1,45 @@
+<nav class="bottom-nav">
+    <!-- TODO -->
+    <a href="todo" class="nav-item" data-page="todo">
+        <img src="img/bottom_nav/todo.png" alt="TODO" class="nav-icon">
+    </a>
+
+    <!-- 入力 -->
+    <a href="input" class="nav-item" data-page="input">
+        <img src="img/bottom_nav/nyuryoku.png" alt="入力" class="nav-icon">
+    </a>
+
+    <!-- カレンダー（ドロップアップ付き） -->
+    <div class="dropdown-wrapper">
+        <button type="button" class="nav-btn-link">
+            <img src="img/bottom_nav/calendar.png" alt="カレンダー" class="nav-icon">
+        </button>
+        <div class="dropup-menu" id="calendar-dropup-menu">
+            <a href="calendar-monthly-private" class="dropup-item">カレンダー (Monthly) 個人</a>
+            <a href="calendar-day-private" class="dropup-item">カレンダー (Day) 個人</a>
+            <!-- 共有メニューはServlet/JSで制御または標準表示 -->
+            <a href="calendar-monthly-share" class="dropup-item shared-menu-item">カレンダー (Monthly) 共有</a>
+            <a href="calendar-day-share" class="dropup-item shared-menu-item">カレンダー (Day) 共有</a>
+        </div>
+    </div>
+
+    <!-- グラフ（ドロップアップ付き） -->
+    <div class="dropdown-wrapper">
+        <button type="button" class="nav-btn-link">
+            <img src="img/bottom_nav/graph.png" alt="グラフ" class="nav-icon">
+        </button>
+        <div class="dropup-menu" id="graph-dropup-menu">
+            <a href="graph-year-private" class="dropup-item">年支出ページ(個人)</a>
+            <a href="graph-monthly-private" class="dropup-item">月支出ページ(個人)</a>
+            <a href="graph-day-private" class="dropup-item">日支出ページ(個人)</a>
+            <a href="graph-year-share" class="dropup-item shared-menu-item">年支出ページ(共有)</a>
+            <a href="graph-monthly-share" class="dropup-item shared-menu-item">月支出ページ(共有)</a>
+            <a href="graph-day-share" class="dropup-item shared-menu-item">日支出ページ(共有)</a>
+        </div>
+    </div>
+
+    <!-- 設定 -->
+    <a href="setting" class="nav-item" data-page="setting">
+        <img src="img/bottom_nav/set.png" alt="設定" class="nav-icon">
+    </a>
+</nav>

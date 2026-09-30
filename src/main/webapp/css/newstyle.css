@@ -1,0 +1,431 @@
+/* ==========================================
+   ヘッダー設定
+   ========================================== */
+.register-header {
+  position: relative;
+  padding: 20px 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+.header-setting-btn {
+  position: absolute;
+  right: 18px;
+  font-size: 20px;
+  color: #8E8E8E;
+  text-decoration: none;
+}
+
+.app-container {
+  /* ▼ ここで横幅を変更できます（例: 375px, 414px, 100% など） */
+  width: 375px; 
+  
+  /* ▼ 高さを固定したい場合は height、画面にあわせる場合は min-height を指定 */
+  min-height: 100vh; /* 100vh = 画面いっぱいの高さ */
+  
+  background-color: #FAF8F5;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 0 auto; /* 画面の中央に配置 */
+}
+
+/* ==========================================
+   ① ユーザーアイコン表示部（画像通りの丸型グレー＋プラスボタン）
+   ========================================== */
+.avatar-selection-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: #DDE5ED; /* 添付画像にあるアイコン未選択時の淡いグレー */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selected-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-plus-btn {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 28px;
+  height: 28px;
+  background-color: #FF6584; /* 画像に合わせた明るいピンク */
+  border-radius: 50%;
+  color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  border: 2px solid #FAF8F5;
+}
+
+/* ==========================================
+   ② フォームデザイン（画像通りに枠線を消去・文字を薄いグレーに）
+   ========================================== */
+.register-main {
+  padding: 0 20px 80px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* ①〜⑤ のピンク文字デザイン */
+.label-number {
+  color: #FF6584;
+  font-size: 14px;
+  font-weight: normal;
+  margin-right: 6px;
+}
+
+.sub-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  margin: 8px 0 4px 32px;
+}
+
+/* 入力エリア（枠線を完全消去して背景に溶け込ませる） */
+.input-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0 8px;
+  height: 36px;
+}
+
+.input-inner.no-icon-padding {
+  padding-left: 36px;
+}
+
+/* 薄いグレーの各種アイコン */
+.input-icon {
+  font-size: 18px;
+  color: #7A7A7A;
+  width: 24px;
+  text-align: center;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* プレースホルダーを含む入力文字（画像のように薄いグレーに設定） */
+.custom-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: #666;
+}
+
+.custom-input::placeholder {
+  color: #D3D3D3; /* 非常に淡いグレー */
+}
+
+.toggle-password {
+  font-size: 16px;
+  color: #7A7A7A;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+/* ドロップダウン部分 */
+.select-inner {
+  position: relative;
+}
+
+.custom-select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: #000000;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 24px;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  font-size: 14px;
+  color: #7A7A7A;
+  pointer-events: none;
+}
+
+/* 「登録する」ボタン（画像に合わせて下部に大きめの角丸ピンクボタン） */
+.submit-btn-wrapper {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-submit {
+  width: 100%;
+  height: 44px;
+  background-color: #ff6b81;
+  border: none;
+  border-radius: 8px;
+  color: #FFF;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-submit:active {
+  opacity: 0.85;
+}
+
+/* モーダル表示 */
+.icon-modal-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-modal-content {
+  width: 85%;
+  background-color: #FFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #EEE;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.icon-grid img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  cursor: pointer;
+}
+/* モーダル背景 */
+.icon-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* モーダル本体 */
+.icon-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* アイコン一覧 */
+.icon-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.icon-list img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.icon-list img:hover {
+  border-color: #007bff;
+}
+
+/* 閉じるボタン */
+.close-modal-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #ff6b81;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* 登録完了ポップアップ */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.popup-content h2 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.close-popup-btn {
+  background: #ff6b81; 
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+/* 登録完了ポップアップ */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  width: 80%;
+  max-width: 320px;
+  animation: fadeIn 0.4s ease;
+}
+
+.popup-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.popup-content h2 {
+  font-size: 1.4rem;
+  color: #ff6b81;
+  margin-bottom: 10px;
+}
+
+.popup-content p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.close-popup-btn {
+  background: #ff6b81;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.close-popup-btn:hover {
+  background: #ff3b5c;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}

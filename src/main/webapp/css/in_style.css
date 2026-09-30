@@ -1,0 +1,355 @@
+/* 全体の設定 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /* パディングとボーダーを含めたサイズ計算を全体に適用 */
+}
+
+body {
+
+    background-color: #FDF9F6;
+    /* 薄いベージュの背景 */
+    color: #333;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    width: 360px;
+    height: 740px;
+    /* ← これが絶対必要 */
+    overflow-y: auto;
+    /* ← はみ出したらスクロール */
+    padding: 12px;
+    position: relative;
+}
+
+/* ヘッダー */
+.header {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 16px 0 10px;
+}
+
+.header .page-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* 日付選択 */
+.date-picker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #EAE0D5;
+    width: 100%;
+}
+
+.date-display {
+    font-size: 13px;
+}
+
+.arrow-btn {
+    background: none;
+    border: none;
+    color: #A69F98;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 0;
+}
+
+/* 入力フォーム共通設定 */
+.input-group {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    height: 40px;
+    /* 高さを統一 */
+    padding: 0 10px;
+    border: 1px solid #EAE0D5;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 13px;
+    color: #333;
+    outline: none;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+    color: #A69F98;
+}
+
+/* 金額入力用のスタイル */
+/* 金額入力用のスタイル */
+.price-input {
+    position: relative;
+}
+
+.price-input input {
+    text-align: right;
+    /* 入力した数値は右寄せ */
+    padding-right: 32px;
+    padding-left: 12px;
+}
+
+/* プレースホルダー（「金額」）のみ左寄せにする */
+.price-input input::placeholder {
+    text-align: left;
+}
+
+.price-input .unit {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #A69F98;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+/* セレクトボックスの矢印カスタム */
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: '\f078';
+    /* FontAwesomeの矢印アイコン */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #A69F98;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+select:required:invalid,
+select:has(option[value=""]:checked) {
+    color: #000;
+}
+
+/* カテゴリグループ */
+.category-group {
+    border-radius: 8px;
+    margin-bottom: 2px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.category-title {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 10px;
+    margin: 0;
+}
+
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.tag {
+    background-color: #FDF9F6;
+    border: 1px solid #EAE0D5;
+    border-radius: 15px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #000;
+    cursor: pointer;
+    transition: background-color #000
+}
+
+.tag.active {
+    font-weight: bold;
+}
+
+/* 各カテゴリの色設定 */
+/* 収入 */
+.income {
+    border: 1px solid #B5DBC3;
+}
+
+.income .category-title,
+.income .tag.active {
+    background-color: #CDEBDB;
+    color: #2F6F4C;
+}
+
+/* 固定支出 */
+.fixed-expense {
+    border: 1px solid #D5DEE8;
+}
+
+.fixed-expense .category-title,
+.fixed-expense .tag.active {
+    background-color: #E2EAF1;
+    color: #556D8D;
+}
+
+/* 変動支出 */
+.variable-expense {
+    border: 1px solid #F6D8D8;
+}
+
+.variable-expense .category-title,
+.variable-expense .tag.active {
+    background-color: #FBEAEA;
+    color: #B25A5A;
+}
+
+/* 投資・貯蓄 */
+.investment {
+    border: 1px solid #D9D2E9;
+}
+
+.investment .category-title,
+.investment .tag.active {
+    background-color: #E7E3F1;
+    color: #6C5B9C;
+}
+
+/* アクションボタン */
+footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -30px;
+    width: 100%;
+}
+
+.btn-cancel,
+.btn-save {
+    width: 48%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-cancel {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #EAE0D5;
+}
+
+.btn-save {
+    background: linear-gradient(to bottom, #ff6b81);
+    color: #fff;
+    font-weight: bold;
+
+}
+
+/* ▼ 古い縦並びを無効化 */
+.date-display-wrapper {
+    display: contents;
+}
+
+.date-row {
+    display: flex;
+    flex-direction: column;
+    /* ← 縦並び */
+    align-items: flex-start;
+    /* 左寄せ */
+    gap: 4px;
+    /* 日付とアイコンの間の余白 */
+}
+
+
+/* カレンダーアイコン（赤丸位置） */
+.calendar-btn {
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #555;
+    font-size: 14px;
+}
+
+.calendar-btn:hover {
+    background-color: #FAF6F0;
+}
+
+
+
+/* ▼ ブラウザ標準のカレンダーマークを非表示 */
+.date-picker::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+/* 年月日バー（固有） */
+.table-header-bar {
+    display: flex;
+    align-items: flex-start;
+    /* ← center から変更 */
+    justify-content: space-between;
+    /* 左右分割 */
+    margin-bottom: 8px;
+}
+
+
+.date-display {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.date-nav {
+    display: flex;
+    flex-direction: row;
+    /* ← 横並び */
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-arrow-btn {
+    width: 26px;
+    height: 26px;
+    background-color: #FFF;
+    border: 1px solid #EAE0D5;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-arrow-btn:hover {
+    background-color: #FAF6F0;
+}

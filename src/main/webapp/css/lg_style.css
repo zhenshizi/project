@@ -1,0 +1,178 @@
+/* 全体の共通設定 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: #FDF9F6; /* 温かみのある薄いベージュ背景 */
+    color: #4A4A4A;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* アプリ画面コンテナ（スマートフォン風の幅） */
+.container {
+    width: 100%;
+    max-width: 360px;
+    padding: 20px 24px;
+    text-align: center;
+}
+
+/* ページタイトル */
+.page-title {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+/* イラスト画像 */
+.main-illustration {
+    margin-bottom: 8px;
+}
+
+.main-illustration img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* アプリタイトル ＆ キャッチコピー */
+.app-branding {
+    margin-bottom: 24px;
+}
+
+.app-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 6px 0;
+}
+
+.app-copy {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+/* 入力フォーム */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 入力グループ（アイコン付きフィールド） */
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+.input-group input {
+    width: 100%;
+    height: 44px;
+    padding: 0 40px 0 40px; /* アイコン分の左右余白 */
+    border: 1px solid #EAE0D5;
+    border-radius: 8px;
+    background-color: #FFF;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #BBB;
+}
+
+/* 入力欄内のアイコン（左側） */
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #AAA;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+/* パスワード表示切替アイコン（右側） */
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #AAA;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ログインボタン */
+.btn-login {
+    width: 100%;
+    height: 44px;
+    background:  #ff6b81 ;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* パスワード忘れた場合のリンク */
+.link-wrapper {
+    margin: 14px 0 24px 0;
+}
+
+.sub-link {
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+}
+
+.sub-link:hover {
+    text-decoration: underline;
+}
+
+/* 新規登録エリア */
+.register-section {
+    margin-bottom: 24px;
+}
+
+.register-text {
+    font-size: 12px;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+.btn-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    background-color: #FFF6F6; /* 薄いピンクベージュ */
+    color: #555;
+    border: 1px solid #FADCDC;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+/* チームロゴ */
+.team-logo img {
+    max-width: 160px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
