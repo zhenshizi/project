@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>要件定義書 - ねこぜ家計簿（家計簿＋日記）</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <style>
+        :root {
+            --primary-color: #f7b733;   /* ヘッダー・見出し背景（温かみのあるイエロー） */
+            --secondary-color: #2c2a29; /* テキスト・見出し文字色（ダークブラウン） */
+            --accent-color: #e03a3e;    /* アクセント・小見出し線（あたたかみのある赤） */
+            --bg-color: #fcf9f2;        /* 全体背景（やわらかなアイボリー） */
+            --card-bg: #ffffff;         /* テーブル・コンテンツ背景 */
+            --border-color: #e2d9cc;    /* 枠線色 */
+            --th-bg: #f9f3e6;           /* テーブルヘッダー背景色 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            background-color: var(--bg-color);
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            border: none;
+            padding: 0;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- 2カラムレイアウト設定 --- */
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        /* 左側：サイドバー（目次固定） */
+        .sidebar {
+            flex: 0 0 260px;
+            position: sticky;
+            top: 2rem;
+            z-index: 100;
+        }
+
+        /* 右側：メインコンテンツ */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--th-bg);
+            font-weight: bold;
+            width: 25%;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-list a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-list a:hover {
+            background-color: var(--th-bg);
+            color: var(--accent-color);
+        }
+
+        code {
+            background-color: #f4f0ea;
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.9em;
+        }
+
+        .screen-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.85rem;
+            color: #777;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="img/teamlogo.png" alt="チームロゴ" style="max-width: 1000px; width: 100%;">
+        <h1>要件定義書</h1>
+        <p>ねこぜ家計簿</p>
+	 <p>作成日 : 2026年8月26日</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- 左側：サイドバー（目次） -->
+        <div class="sidebar">
+            <section id="index">
+                <nav>   
+                    <h2>目次</h2>
+                    <ul class="nav-list">
+                        <li><a href="#overview">1. プロジェクト概要</a></li>
+                        <li><a href="#sitemap">2. 画面構成・ルーティング</a></li>
+                        <li><a href="#functional">3. 機能要件・仕様</a></li>
+                        <li><a href="#resources">4. 画面イメージ</a></li>
+                        <li><a href="#status-images">5. ステータス画像</a></li>
+			<li><a href="#status-images">6. アイコン画像</a></li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+
+        <!-- 右側：メインコンテンツ -->
+        <div class="main-content">
+
+            <!-- 1. プロジェクト概要 -->
+            <section id="overview">
+                <h2>1. プロジェクト概要</h2>
+                <table>
+                    <tr>
+                        <th>システム名称</th>
+                        <td>ねこぜ家計簿（家計簿＋TODOリスト＋日記）</td>
+                    </tr>
+                    <tr>
+                        <th>目的・コンセプト</th>
+                        <td>
+                            日々の家計・TODO、および日記を管理できるWebアプリケーション。<br>
+                            月の予算管理や日割りの使用可能額を可視化し、予算達成時には達成感を感じられる仕掛けを提供する。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>想定技術スタック</th>
+                        <td>
+                            <ul>
+                                <li><strong>フロントエンド:</strong> HTML5, CSS3, JavaScript (ES6+), Chart.js (グラフ描画)</li>
+                                <li><strong>バックエンド:</strong> Java</li>
+                                <li><strong>データベース:</strong> PostgreSQL</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>1.1. システム処理イメージ（データフロー・処理構成）</h3>
+                <table>
+                    <tr>
+                        <th>レイヤー</th>
+                        <th>想定技術</th>
+                        <th>主要処理・役割</th>
+                    </tr>
+                    <tr>
+                        <th>フロントエンド<br>(Webブラウザ)</th>
+                        <td>HTML5 / CSS3 / JavaScript (ES6+) / Chart.js</td>
+                        <td>
+                            <ul>
+                                <li><strong>画面表示・UI制御:</strong> ユーザー入力フォーム、カレンダー、レスポンシブ表示</li>
+                                <li><strong>イベント処理:</strong> ボタン操作、フォームデータ送信、画面動的切り替え</li>
+                                <li><strong>動的グラフィック:</strong> Chart.jsによる固定支出・変動支出割合の円グラフ描画</li>
+                                <li><strong>ステータス表示:</strong> 本日使用率に応じたモチベーションアイコン（寝そべり・姿勢良い・猫背）の動的切り替え</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>バックエンド<br>(Webサーバー)</th>
+                        <td>Java (Servlet / JSP / MVC)</td>
+                        <td>
+                            <ul>
+                                <li><strong>リクエスト制御:</strong> Servlet/Controllerによるルーティング・セッション管理</li>
+                                <li><strong>認証ロジック:</strong> ユーザーログイン・パスワード照合・共有ID権限制御</li>
+                                <li><strong>計算ビジネスロジック:</strong>
+                                    <ul>
+                                        <li>当月利用可能残額・日割り可能額の自動計算</li>
+                                        <li>使用率に基づいた段階ステータス判定（良い・普通・悪い）</li>
+                                    </ul>
+                                </li>
+                                <li><strong>データアクセス:</strong> DAO/JDBCを介したDB操作、日記画像(bytea)のバイナリ処理</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>データベース<br>(DBサーバー)</th>
+                        <td>PostgreSQL</td>
+                        <td>
+                            <ul>
+                                <li><strong>データ永続化:</strong> 6つのテーブル（<code>USER</code>, <code>group_id</code>, <code>家計簿入力</code>, <code>費目</code>, <code>日記</code>, <code>todo</code>）の管理</li>
+                                <li><strong>データ抽出・検索:</strong> ユーザー別・月別・日別の収支集計データや日記・TODOタスクのCRUD処理</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h4 style="margin-bottom: 1rem; color: var(--secondary-color);">【処理フロー構成図】</h4>
+                <div style="background: #ffffff; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 1rem; overflow-x: auto;">
+                    <pre class="mermaid">
+graph TD;
+    subgraph Frontend["フロントエンド (Webブラウザ)"]
+        UI["HTML5 / CSS3<br/>(画面レイアウト &<br/>ステータスアイコン)"]
+        JS["JavaScript (ES6+)<br/>(DOM操作 & イベント処理 &<br/>API送信)"]
+    end
+
+    subgraph Backend["バックエンド (Java Web Server)"]
+        Controller["Servlet / Controller<br/>(リクエスト受付 &<br/>ルーティング)"]
+        BudgetService["家計簿・集計計算サービス<br/>(日割り残額算出 &<br/>ステータス判定)"]
+        DAO["DAO / JDBC<br/>(データベースアクセス)"]
+    end
+
+    subgraph Database["データベース (PostgreSQL)"]
+        DB_User[("USER テーブル<br/>(ユーザー・認証情報)")]
+        DB_Group[("group_id テーブル<br/>(共有ID管理)")]
+        DB_Kakeibo[("家計簿入力 テーブル<br/>(収支・費目・モード)")]
+        DB_Himoku[("費目 テーブル<br/>(費目マスタ)")]
+        DB_Diary[("日記 テーブル<br/>(日記本文・画像(bytea))")]
+        DB_Todo[("todo テーブル<br/>(タスク・ステータス)")]
+    end
+
+    %% リクエスト・レスポンスの流れ
+    UI -->|"① ユーザー操作<br/>(入力 / ボタンクリック)"| JS
+    JS -->|"② HTTPリクエスト<br/>(JSON / FormData)"| Controller
+
+    Controller --> BudgetService
+    BudgetService --> DAO
+
+    DAO --> DB_User
+    DAO --> DB_Group
+    DAO --> DB_Kakeibo
+    DAO --> DB_Himoku
+    DAO --> DB_Diary
+    DAO --> DB_Todo
+
+    DAO -->|"DBデータ返却"| Controller
+    Controller -->|"③ HTTPレスポンス<br/>(JSONデータ)"| JS
+    JS -->|"④ 画面更新<br/>(DOM書き換え / Chart.js再描画)"| UI
+                    </pre>
+                </div>
+            </section>
+
+            <!-- 2. 画面構成・ルーティング -->
+            <section id="sitemap">
+                <h2>2. 画面構成・ルーティング (サイトマップ)</h2>
+                <p style="margin-bottom: 1rem;">システムの主要画面、対応URL、主要機能、および画面間の遷移仕様一覧です。</p>
+
+                <h3>2.1. 画面一覧（サイトマップ）</h3>
+                <table>
+                    <tr>
+                        <th>画面No. / 画面名</th>
+                        <th>対応URL / ファイル</th>
+                        <th>概要・主要機能詳細</th>
+                    </tr>
+                    <tr>
+                        <th>1.1 ログイン画面</th>
+                        <td><code>/login</code><br>(<code>login.jsp</code>)</td>
+                        <td>
+                            メールアドレス・パスワード入力による認証。伏字表示/非表示切替（目アイコン）、秘密の質問画面へのリンク、新規会員登録画面へのリンク。ログイン成功時は「カレンダー(Monthly)個人」へ遷移。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>1.2 ユーザ新規登録画面</th>
+                        <td><code>/register</code><br>(<code>register.jsp</code>)</td>
+                        <td>
+                            ユーザ画像（アイコン8種選択）、名前、メールアドレス（形式・重複チェック）、パスワード（8桁・BCrypt暗号化）、秘密の質問（3択・BCrypt暗号化）、ニックネームの登録処理。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>1.3 秘密の質問画面</th>
+                        <td><code>/secret_question</code><br>(<code>secret_question.jsp</code>)</td>
+                        <td>
+                            メールアドレス入力、秘密の質問選択・回答検証によるパスワード再設定処理。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>2.1 家計簿入力画面</th>
+                        <td><code>/kakeibo_input</code><br>(<code>kakeibo_input.jsp</code>)</td>
+                        <td>
+                            日付、金額、支出種別（収入/固定/変動/投資・貯蓄）、モード（個人/共有）、費目選択（給与、家賃、食費等22種）、メモの入力・登録。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>3.1 カレンダー(Monthly)個人画面</th>
+                        <td><code>/calendar/monthly/private</code></td>
+                        <td>
+                            個人の月次収支一覧・日別合計額表示。当月利用可能残額・本日利用可能額（日割り）の動的計算、ねこステータス表示（寝そべり/姿勢良い/猫背）、月間メモ入力。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>3.2 カレンダー(Monthly)共有画面</th>
+                        <td><code>/calendar/monthly/shared</code></td>
+                        <td>
+                            共有グループの月次収支一覧・日別合計額表示、ねこステータス表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>3.3 カレンダー(Day)個人画面</th>
+                        <td><code>/calendar/day/private</code></td>
+                        <td>
+                            選択した日付の個人収支明細一覧・編集・削除。同日の日記（写真・文章）記録・閲覧、TODOタスク表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>3.4 カレンダー(Day)共有画面</th>
+                        <td><code>/calendar/day/shared</code></td>
+                        <td>
+                            選択した日付の共有収支明細一覧（各共有ユーザごとの内訳表示）。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>4.1 TODO画面</th>
+                        <td><code>/todo</code><br>(<code>todo.jsp</code>)</td>
+                        <td>
+                            今日やること・買い物リスト等のタスク（TODO・アイデア）追加・編集・削除。完了ステータス切替（チェックボックスによるグレーアウト打消し線表示）。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>5.1〜5.2 年支出ページ［個人・共有］</th>
+                        <td><code>/graph/year/private</code><br><code>/graph/year/shared</code></td>
+                        <td>
+                            年間支出データを月別に集計し、グラフ（Chart.js）により可視化。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>5.3〜5.4 月支出ページ［個人・共有］</th>
+                        <td><code>/graph/month/private</code><br><code>/graph/month/shared</code></td>
+                        <td>
+                            月間支出データをカテゴリー別・費目別に集計し、グラフ（円グラフ等）により可視化。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>5.5〜5.6 日支出ページ［個人・共有］</th>
+                        <td><code>/graph/day/private</code><br><code>/graph/day/shared</code></td>
+                        <td>
+                            日別支出データをカテゴリー別・費目別に集計し、グラフ可視化。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>6.1 設定画面</th>
+                        <td><code>/settings</code><br>(<code>settings.jsp</code>)</td>
+                        <td>
+                            所属共有ID表示、共有ID作成（8桁数値・重複/桁数チェック）、共有ID認証（作成者メールアドレス照合）、ログアウト処理（ダイアログ確認後セッション破棄）。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>6.2 ユーザ情報変更画面</th>
+                        <td><code>/user_edit</code><br>(<code>user_edit.jsp</code>)</td>
+                        <td>
+                            登録済みユーザ情報（アイコン・名前・メール・パスワード・秘密の質問・ニックネーム）の変更・更新処理。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>7.1 ナビゲーションメニュー</th>
+                        <td>共通コンポーネント</td>
+                        <td>
+                            全画面下部固定メニュー（[TODO][入力][カレンダー][グラフ][設定]）。カレンダー/グラフ押下時にドロップアップサブメニュー表示。現在年月日パラメータの引継ぎ。
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>2.2. 画面遷移ルーティング仕様</h3>
+                <table>
+                    <tr>
+                        <th>遷移元画面</th>
+                        <th>イベント / 操作</th>
+                        <th>遷移先画面</th>
+                        <th>備考・処理仕様</th>
+                    </tr>
+                    <tr>
+                        <th>ログイン画面</th>
+                        <td>[ログイン] 成功</td>
+                        <td>カレンダー(Monthly)個人画面</td>
+                        <td>セッションスコープに <code>user_id</code> を保持</td>
+                    </tr>
+                    <tr>
+                        <th>ログイン画面</th>
+                        <td>「パスワードを忘れた方はこちら」</td>
+                        <td>秘密の質問画面</td>
+                        <td>パスワード再設定プロセスへ</td>
+                    </tr>
+                    <tr>
+                        <th>ログイン画面</th>
+                        <td>[新規登録] ボタン</td>
+                        <td>ユーザ新規登録画面</td>
+                        <td>会員登録フォームへ</td>
+                    </tr>
+                    <tr>
+                        <th>ユーザ新規登録画面</th>
+                        <td>[登録する] 成功</td>
+                        <td>ログイン画面</td>
+                        <td>登録完了ポップアップ表示後ログイン画面へ</td>
+                    </tr>
+                    <tr>
+                        <th>秘密の質問画面</th>
+                        <td>[変更] 成功</td>
+                        <td>ログイン画面</td>
+                        <td>パスワード更新完了後ログイン画面へ</td>
+                    </tr>
+                    <tr>
+                        <th>設定画面</th>
+                        <td>[ユーザ情報変更] ボタン</td>
+                        <td>ユーザ情報変更画面</td>
+                        <td>登録情報を入力済みの状態で初期表示</td>
+                    </tr>
+                    <tr>
+                        <th>設定画面</th>
+                        <td>共有ID認証 成功</td>
+                        <td>ログイン画面</td>
+                        <td>「登録が完了したにゃ！」メッセージ表示後ログイン画面へ</td>
+                    </tr>
+                    <tr>
+                        <th>設定画面</th>
+                        <td>[ログアウト] -> ダイアログ [はい]</td>
+                        <td>ログイン画面</td>
+                        <td>セッションスコープを破棄 (<code>session.invalidate()</code>)</td>
+                    </tr>
+                    <tr>
+                        <th>カレンダー(Monthly)個人/共有</th>
+                        <td>日付セル クリック</td>
+                        <td>カレンダー(Day)個人/共有画面</td>
+                        <td>クリックした年月日をリクエストパラメータで受渡し</td>
+                    </tr>
+                    <tr>
+                        <th>ナビゲーションメニュー</th>
+                        <td>アイコン選択（TODO/入力/カレンダー/グラフ/設定）</td>
+                        <td>各該当画面 / ドロップアップメニュー</td>
+                        <td>サブメニュー選択時は現在画面名を太字強調表示</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- 3. 機能要件・仕様 -->
+            <section id="functional">
+                <h2>3. 機能要件・ビジネスロジック仕様</h2>
+
+                <h3>3.1. 画面別・機能詳細仕様</h3>
+                <table>
+                    <tr>
+                        <th>対象画面 / 機能カテゴリ</th>
+                        <th>機能名称</th>
+                        <th>仕様・要件詳細</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="4">1.1 ログイン</th>
+                        <th>画面表示・遷移機能</th>
+                        <td>
+                            <ul>
+                                <li>タイトル：「家計簿アプリ」、ヘッダー画像：<code>3cat.png</code></li>
+                                <li>入力項目：メールアドレス、パスワード（右側に目アイコン表示/非表示切替）</li>
+                                <li>[ログイン]成功：カレンダー(Monthly)個人画面へ遷移</li>
+                                <li>[ログイン]失敗：画面遷移せずメールアドレス欄上部に赤字エラー表示「メールアドレスまたはパスワードが違います」</li>
+                                <li>リンク：秘密の質問画面へ遷移、新規会員登録画面へ遷移</li>
+                                <li>下部バナー画像：<code>teamlogo.png</code></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>認証機能</th>
+                        <td>
+                            PostgreSQLの <code>USER</code> テーブルを参照し、入力された「メールアドレス」と「パスワード（ハッシュ値）」を照合（<code>BCrypt.checkpw</code>）。セッションスコープにユーザIDを保持。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>エラーチェック機能</th>
+                        <td>
+                            ・未入力チェック：メールアドレスおよびパスワードが空の場合は不可<br>
+                            ・形式チェック：メールアドレスが「@」を含む適切なフォーマットであること
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ユーザー認証機能</th>
+                        <td>
+                            テーブル名：<code>USER</code><br>
+                            ・<code>mail_address</code> と <code>password</code>（ハッシュ値）を条件にUSERテーブルを検索
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">1.2 ユーザ新規登録</th>
+                        <th>画面表示・遷移機能</th>
+                        <td>
+                            全項目設定・入力必須とし、バリデーションチェックを行う。<br>
+                            1. ユーザ画像（8種アイコン：black, blue, green, pink, purple, red, skyblue, yellow）<br>
+                            2. 名前（プレースホルダー：「名前を入力してください」）<br>
+                            3. メールアドレス（形式チェック・DB重複チェック）<br>
+                            4. パスワード（8文字制限・「●」伏字・目アイコン切替・BCryptハッシュ化保存）<br>
+                            5. 秘密の質問（3択：母親の旧姓は？/父親の旧姓は？/生まれた都道府県は？、回答最大24文字・BCryptハッシュ化保存）<br>
+                            6. ニックネーム<br>
+                            7. [登録する]ボタン：正常時はUSERテーブルに登録し「登録が完了したにゃ！」表示後ログイン画面へ遷移
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ユーザ登録機能</th>
+                        <td>
+                            テーブル名：<code>USER</code> にユーザ設定値（アイコン, 名前, メール, パスワード, 秘密の質問・回答, ニックネーム）を登録。<code>create_date</code>（登録日時）を自動更新。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3">1.3 秘密の質問</th>
+                        <th>画面表示・遷移機能</th>
+                        <td>
+                            登録済みの「メールアドレス」「秘密の質問」「秘密の質問の答え」「新しいパスワード」を入力。<br>
+                            [変更する]ボタン押下でバリデーションチェック。正常時はパスワードをハッシュ化更新し「登録が完了したにゃ！」表示後ログイン画面へ遷移。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>認証機能</th>
+                        <td>
+                            <code>USER</code> テーブルを検索し、メールアドレス、秘密の質問、秘密の質問の答え（BCrypt照合）が一致することを認証。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>パスワード更新機能</th>
+                        <td>
+                            認証成功時、<code>USER</code> テーブルの <code>password</code> を新しいパスワードのハッシュ値で更新。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3">2.1 家計簿入力</th>
+                        <th>画面表示・遷移機能</th>
+                        <td>
+                            ・日付入力（初期値：現在年月日）<br>
+                            ・金額入力（単位「円」、半角数字のみ、0円不可）<br>
+                            ・支出種別選択（ラジオボタン：「収入」「固定」「変動」「投資・貯蓄」）<br>
+                            ・モード選択（ラジオボタン：「個人」「共有」）<br>
+                            ・費目選択（ドロップダウン：給与、家賃、ガス代、電気代、水道代、通信費、保険料、教育費、固定その他、美容費、医療費、食費、被服、交際費、交通費、日用品、趣味、経費、変動その他、投資、貯蓄等の22種）<br>
+                            ・メモ入力（プレースホルダー：「メモを入力」）<br>
+                            ・[保存する]ボタン押下でバリデーションチェック実行後保存
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>登録機能</th>
+                        <td>
+                            テーブル名：<code>家計簿入力</code> に家計簿ID(自動採番), ユーザID(セッション), 日付, メモ, 金額, 支出種別(0:収入 1:固定 2:変動 3:投資・貯蓄), モード(0:個人 1:共有), 費目ID を登録。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>エラーチェック機能</th>
+                        <td>
+                            ・必須チェック（金額、カテゴリ、費目）モーダル表示<br>
+                            ・金額チェック（0円以下や全角文字入力時は「金額が不正です。」表示）
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">3.1〜3.4 カレンダー</th>
+                        <th>画面表示・計算機能</th>
+                        <td>
+                            ・月次カレンダー表示（日ごとの支出合計額表示、日付押下でDay画面へ遷移）<br>
+                            ・<code>当月利用可能残額</code> = 当月予算 - 当月累計支出<br>
+                            ・<code>本日利用可能額（日割り）</code> = 当月利用可能残額 / 当月残日数（本日含む）<br>
+                            ・<strong>残使用可能額・日割り計算式:</strong><br>
+                            &nbsp;&nbsp;・<code>残り使用可能額</code> = 当月収入 - (当月固定支出 + 当月変動支出 + 当月投資・貯蓄)<br>
+                            &nbsp;&nbsp;・<code>当月残日数</code> = 本日（システム日付）から当月末日までの日数（本日を含む）<br>
+                            &nbsp;&nbsp;・<code>日割り残額</code> = 残り使用可能額 ÷ 当月残日数（円未満切り捨て）<br>
+                            ・<strong>ねこステータス判定（計算式・基準）:</strong><br>
+                            &nbsp;&nbsp;日割り予算に対する本日の使用率（③）を以下計算式で算出：<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;① 基準値 = (当月の収入 - 固定支出 - 投資・貯蓄) ÷ 当月日数<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;② 日割り残額 = 残り使用可能額 ÷ 当月残日数（円未満切り捨て）<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;③ 本日使用率 = ② ÷ ①<br>
+                            &nbsp;&nbsp;算出した本日使用率（③）に応じたステータス画像を表示：<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;・<code>0% 〜 70% 未満</code>：<strong>良い</strong> (<code>1.nesoberi.gif</code> / <code>nesoberi.png</code>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;・<code>70% 〜 100% 以下</code>：<strong>普通</strong> (<code>2.shiseiyoi.gif</code> / <code>shiseiyoi.png</code>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;・<code>100% 超（予算オーバー）</code>：<strong>悪い</strong> (<code>3.nekoze.gif</code> / <code>nekozeold.png</code>)<br>
+                            ・月間メモ機能、Day画面での日記（写真・文章）記録、TODOタスク表示
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>共有カレンダー表示</th>
+                        <td>
+                            共有グループ（<code>group_id</code>）に所属する全ユーザの家計簿入力データ（モード=1:共有）を集計し表示。各ユーザ別の内訳表示に対応。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">4.1 TODO</th>
+                        <th>画面表示・管理機能</th>
+                        <td>
+                            ・今日やること・アイデア・TODOステータス（未完了/完了）の管理<br>
+                            ・チェックボックスによる完了判定（完了時はテキストをグレーアウト打消し線表示）<br>
+                            ・テーブル名：<code>todo</code> に保存
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>エラーチェック機能</th>
+                        <td>未入力時のバリデーション処理</td>
+                    </tr>
+                    <tr>
+                        <th>5.1〜5.6 支出分析グラフ</th>
+                        <th>集計・可視化機能</th>
+                        <td>
+                            年・月・日×個人・共有の6パターンで支出データを集計し、Chart.js等のグラフライブラリを用いてカテゴリー別・費目別の割合を動的描画。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th rowspan="4">6.1 設定 & 共有ID</th>
+                        <th>画面表示機能</th>
+                        <td>
+                            所属共有ID表示、共有ID作成エリア、共有ID認証エリア、ログアウトボタンの表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>共有ID作成機能</th>
+                        <td>
+                            ・共有ID（8桁数字）を自動または手動生成しテーブル <code>group_id</code> に登録。<br>
+                            ・<code>created_by</code> に作成者の <code>user_id</code> を保存。<br>
+                            ・桁数チェック（8桁未満不可）および重複チェック（他IDと重複不可）を実行。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>共有ID認証機能</th>
+                        <td>
+                            ・入力された「共有ID」と「作成者のメールアドレス」で照合認証。<br>
+                            ・認証成功時、ログインユーザの <code>USER</code> テーブルの <code>group_id</code> を更新し、「登録が完了したにゃ！」表示後ログイン画面へ遷移。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ログアウト機能</th>
+                        <td>
+                            ・押下時に確認ダイアログ表示（「ログアウトしますか？」[はい][いいえ]）。<br>
+                            ・[はい]押下でセッションスコープ破棄 (<code>session.invalidate()</code>) しログイン画面へ遷移。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>6.2 ユーザ情報変更</th>
+                        <th>更新機能</th>
+                        <td>
+                            既存のユーザ情報を入力済み状態でフォーム表示し、変更保存ボタンで <code>USER</code> テーブルの登録データを更新。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>7.1 ナビゲーションメニュー</th>
+                        <th>共通UI・ルーティング機能</th>
+                        <td>
+                            ・全画面下部に固定表示（[TODO][入力][カレンダー][グラフ][設定]）。<br>
+                            ・カレンダー・グラフ押下時にドロップアップサブメニューを表示。<br>
+                            ・画面遷移時にリクエストパラメータで現在年月日を受け渡し。現在表示画面を太字で強調。
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>3.2. 入力UI・バリデーションチェック仕様</h3>
+                <table>
+                    <tr>
+                        <th>チェック項目</th>
+                        <th>対象画面 / 形式</th>
+                        <th>エラーメッセージ・挙動仕様</th>
+                    </tr>
+                    <tr>
+                        <th>未入力・必須チェック</th>
+                        <td>全画面（ログイン、会員登録、入力、設定等）</td>
+                        <td>
+                            テキストボックス下またはモーダルにて「入力してください」「設定してください」等の赤字エラー表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>桁数・文字数制限</th>
+                        <td>パスワード (8桁), 共有ID (8桁), 秘密の質問回答 (24文字以内)</td>
+                        <td>
+                            8桁未満または範囲外の場合は「8ケタで入力してください」等の赤字エラー表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス形式チェック</th>
+                        <td>ログイン、会員登録、秘密の質問、設定</td>
+                        <td>
+                            「@」を含む適切なフォーマットでない場合「使用できないメールアドレスです」表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>データ重複チェック</th>
+                        <td>会員登録（メールアドレス）、設定（共有ID）</td>
+                        <td>
+                            「他のIDと重複しています」等のエラーを表示し登録不可とする。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>数値・金額チェック</th>
+                        <td>家計簿入力（金額）</td>
+                        <td>
+                            0円以下の数値、全角文字入力時は「金額が不正です。」表示。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>セキュリティ・暗号化処理</th>
+                        <td>パスワード、秘密の質問の答え</td>
+                        <td>
+                            <code>BCrypt.checkpw</code> メソッド等を用い、DB保存時は必ずハッシュ化して安全に保持する。
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>3.3. DB要件（テーブル設計）</h3>
+                <p>PostgreSQLデータベースのテーブル定義構成です。（<code>テーブル定義書(ねこぜ家計簿).xlsx</code> 準拠）</p>
+                <table>
+                    <tr>
+                        <th>テーブル名</th>
+                        <th>物理名</th>
+                        <th>カラム定義 (物理名: 型 / 制約 / 説明)</th>
+                    </tr>
+                    <tr>
+                        <th>共有ID</th>
+                        <td><code>group_id</code></td>
+                        <td>
+                            <code>group_id</code>: CHARACTER(8) (PK, NOT NULL, 共有ID)<br>
+                            <code>created_by</code>: INTEGER (NOT NULL, 作成した人)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>TODO</th>
+                        <td><code>todo</code></td>
+                        <td>
+                            <code>id</code>: SERIAL (PK, NOT NULL, TODOid)<br>
+                            <code>user_id</code>: INTEGER (NOT NULL, ユーザID)<br>
+                            <code>todo</code>: TEXT (今日やること)<br>
+                            <code>idea</code>: TEXT (アイデア)<br>
+                            <code>status</code>: BOOLEAN (DEFAULT false, TODOステータス: false:未完了 true:完了)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>USER</th>
+                        <td><code>USER</code></td>
+                        <td>
+                            <code>user_id</code>: SERIAL (PK, NOT NULL, ユーザID)<br>
+                            <code>user_icon</code>: BYTEA (アイコン)<br>
+                            <code>user_name</code>: VARCHAR(255) (NOT NULL, 名前)<br>
+                            <code>mail_address</code>: VARCHAR(256) (NOT NULL, メールアドレス)<br>
+                            <code>password</code>: VARCHAR(8) (NOT NULL, パスワード)<br>
+                            <code>secret_question</code>: VARCHAR(255) (NOT NULL, 秘密の質問)<br>
+                            <code>secret_answer</code>: VARCHAR(72) (NOT NULL, 秘密の質問の答え)<br>
+                            <code>nickname</code>: VARCHAR(255) (NOT NULL, ニックネーム)<br>
+                            <code>create_date</code>: TIMESTAMP(6) WITHOUT TIME ZONE (NOT NULL, DEFAULT CURRENT_TIMESTAMP, 登録日時)<br>
+                            <code>group_id</code>: CHARACTER(8) (NOT NULL, 共有ID)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>家計簿入力</th>
+                        <td><code>家計簿入力</code></td>
+                        <td>
+                            <code>id</code>: SERIAL (PK, NOT NULL, 家計簿ID)<br>
+                            <code>user_id</code>: INTEGER (NOT NULL, ユーザID)<br>
+                            <code>date</code>: DATE (NOT NULL, 日付)<br>
+                            <code>memo</code>: TEXT (メモ)<br>
+                            <code>yen</code>: NUMERIC(10) (NOT NULL, DEFAULT 0, 金額)<br>
+                            <code>category_type</code>: VARCHAR(50) (NOT NULL, 支出種別: 0:収入 1:固定 2:変動 3:投資・貯蓄)<br>
+                            <code>mode</code>: BOOLEAN (NOT NULL, DEFAULT false, モード: 0:個人 1:共有)<br>
+                            <code>himoku_id</code>: INTEGER (NOT NULL, 費目ID)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>日記</th>
+                        <td><code>日記</code></td>
+                        <td>
+                            <code>id</code>: SERIAL (PK, NOT NULL, 日記id)<br>
+                            <code>user_id</code>: INTEGER (NOT NULL, ユーザID)<br>
+                            <code>date</code>: DATE (NOT NULL, 日付)<br>
+                            <code>photo</code>: BYTEA (画像)<br>
+                            <code>content</code>: TEXT (日記)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>費目</th>
+                        <td><code>費目</code></td>
+                        <td>
+                            <code>himoku_id</code>: SERIAL (PK, NOT NULL, 費目ID)<br>
+                            <code>category_name</code>: VARCHAR(50) (NOT NULL, 費目: 0:給与 1:収入その他 10:家賃 11:ガス代 12:電気代 13:水道代 14:通信費 15:保険料 16:教育費 17:固定その他 30:美容費 31:医療費 32:食費 33:被服 34:交際費 35:交通費 36:日用品 37:趣味 38経費 39変動その他 50:投資 51:貯蓄)<br>
+                            <code>user_id</code>: INTEGER (NOT NULL, ユーザID)
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- 4. 画面イメージ -->
+            <section id="resources">
+                <h2>4. 画面イメージ</h2>
+                <p>各画面のレイアウト画像一覧です。</p>
+
+                <h3>4.1 ログイン画面</h3>
+                <img src="17page/1.1ログイン.jpeg" alt="1.1 ログイン" class="screen-img">
+
+                <h3>4.2 ユーザ新規登録画面</h3>
+                <img src="17page/1.2ユーザ新規登録.jpeg" alt="1.2 ユーザ新規登録" class="screen-img">
+
+                <h3>4.3 秘密の質問画面</h3>
+                <img src="17page/1.3秘密の質問.jpeg" alt="1.3 秘密の質問" class="screen-img">
+
+                <h3>4.4 家計簿入力ページ</h3>
+                <img src="17page/2.1家計簿入力ページ.jpeg" alt="2.1 家計簿入力ページ" class="screen-img">
+
+                <h3>4.5 カレンダー(Monthly)個人画面</h3>
+                <img src="17page/3.1カレンダー(Monthly)個人.jpeg" alt="3.1 カレンダー(Monthly)個人" class="screen-img">
+
+                <h3>4.6 カレンダー(Monthly)共有画面</h3>
+                <img src="17page/3.2カレンダー(Monthly)共有.jpeg" alt="3.2 カレンダー(Monthly)共有" class="screen-img">
+
+                <h3>4.7 カレンダー(Day)個人画面</h3>
+                <img src="17page/3.3カレンダー(Day)個人.jpeg" alt="3.3 カレンダー(Day)個人" class="screen-img">
+
+                <h3>4.8 カレンダー(Day)共有画面</h3>
+                <img src="17page/3.4カレンダー(Day)共有.jpeg" alt="3.4 カレンダー(Day)共有" class="screen-img">
+
+                <h3>4.9 TODO画面</h3>
+                <img src="17page/4.1TODO.jpeg" alt="4.1 TODO" class="screen-img">
+
+                <h3>4.10 年支出ページ (個人)</h3>
+                <img src="17page/5.1年支出ページ(個人).jpeg" alt="5.1 年支出ページ(個人)" class="screen-img">
+
+                <h3>4.11 年支出ページ (共有)</h3>
+                <img src="17page/5.2年支出ページ(共有).jpeg" alt="5.2 年支出ページ(共有)" class="screen-img">
+
+                <h3>4.12 月支出ページ (個人)</h3>
+                <img src="17page/5.3月支出ページ(個人).jpeg" alt="5.3 月支出ページ(個人)" class="screen-img">
+
+                <h3>4.13 月支出ページ (共有)</h3>
+                <img src="17page/5.4月支出ページ(共有).jpeg" alt="5.4 月支出ページ(共有)" class="screen-img">
+
+                <h3>4.14 日支出ページ (個人)</h3>
+                <img src="17page/5.5日支出ページ(個人).jpeg" alt="5.5 日支出ページ(個人)" class="screen-img">
+
+                <h3>4.15 日支出ページ (共有)</h3>
+                <img src="17page/5.6日支出ページ(共有).jpeg" alt="5.6 日支出ページ(共有)" class="screen-img">
+
+                <h3>4.16 設定画面</h3>
+                <img src="17page/6.1設定.jpeg" alt="6.1 設定" class="screen-img">
+
+                <h3>4.17 ユーザ情報変更画面</h3>
+                <img src="17page/6.2ユーザ情報変更.jpeg" alt="6.2 ユーザ情報変更" class="screen-img">
+
+                <h3>4.18 ナビゲーションメニュー</h3>
+                <img src="17page/ナビゲーションメニュー.png" alt="ナビゲーションメニュー" class="screen-img">
+            </section>
+
+            <!-- 5. ステータス画像 -->
+            <section id="status-images">
+                <h2>5. ステータス画像</h2>
+                <p>予算の使用状況に応じて表示されるアニメーションGIFの一覧です。</p>
+
+                <table>
+                    <tr>
+                        <th>ステータス</th>
+                        <th>GIF画像</th>
+                    </tr>
+                    <tr>
+                        <th>良い (使用率 ≤ 70%)</th>
+                        <td><img src="img/animeGIF/nesoberi/nesoberi.gif" alt="ステータス「良い」アイコン" width="200"></td>
+                    </tr>
+                    <tr>
+                        <th>普通 (70% < 使用率 ≤ 100%)</th>
+                        <td><img src="img/animeGIF/siseiyoi/siseiyoi.gif" alt="ステータス「普通」アイコン" width="200"></td>
+                    </tr>
+                    <tr>
+                        <th>悪い (使用率 > 100%)</th>
+                        <td><img src="img/animeGIF/nekoze/nekoze.gif" alt="ステータス「悪い」アイコン" width="200"></td>
+                    </tr>
+                </table>
+            </section>
+  		<!-- 6. ユーザアイコン -->
+            <section id="status-images">
+                <h2>5. アイコン画像</h2>
+                <p>ユーザが選択できるアイコンの一覧です。</p>
+
+                <table>
+                    <tr>
+                        <th>色</th>
+                        <th>アイコン画像</th>
+                    </tr>
+                    <tr>
+                        <th>黒</th>
+                        <td><img src="img/user_icon/black.png" alt="黒色アイコン" width="200"></td>
+                    </tr>
+                    <tr>
+                        <th>青</th>
+                        <td><img src="img/user_icon/blue.png" alt="青色アイコン" width="200"></td>
+                    </tr>
+                    <tr>
+                        <th>緑</th>
+                        <td><img src="img/user_icon/green.png" alt="緑色アイコン" width="200"></td>
+
+                    </tr>
+		　　<tr>
+                        <th>ピンク</th>
+                        <td><img src="img/user_icon/pink.png" alt="ピンク色アイコン" width="200"></td>
+
+                    </tr>
+		    <tr>
+                        <th>紫</th>
+                        <td><img src="img/user_icon/purple.png" alt="紫色アイコン" width="200"></td>
+
+                    </tr>
+		    <tr>
+                        <th>赤</th>
+                        <td><img src="img/user_icon/red.png" alt="赤色アイコン" width="200"></td>
+
+                    </tr>
+		    <tr>
+                        <th>水色</th>
+                        <td><img src="img/user_icon/skyblue.png" alt="水色アイコン" width="200"></td>
+
+                    </tr>
+		    <tr>
+                        <th>黄色</th>
+                        <td><img src="img/user_icon/yellow.png" alt="黄色アイコン" width="200"></td>
+
+                    </tr>
+
+                </table>
+            </section>
+
+        </div><!-- /.main-content を閉じる -->
+
+    </div><!-- /.container を閉じる -->
+
+    <footer>
+        <p>&copy; 2026 要件定義書 - ねこぜ家計簿</p>
+    </footer>
+
+</body>
+</html>

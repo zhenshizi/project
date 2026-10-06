@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>要件定義書 - TODOリスト兼家計簿（家計簿＋日記）</title>
+    <style>
+        :root {
+            --primary-color: #f7b733;   /* ヘッダー・見出し背景（温かみのあるイエロー） */
+            --secondary-color: #2c2a29; /* テキスト・見出し文字色（ダークブラウン） */
+            --accent-color: #e03a3e;    /* アクセント・小見出し線（あたたかみのある赤） */
+            --bg-color: #fcf9f2;        /* 全体背景（やわらかなアイボリー） */
+            --card-bg: #ffffff;          /* テーブル・コンテンツ背景 */
+            --border-color: #e2d9cc;    /* 枠線色 */
+            --th-bg: #f9f3e6;           /* テーブルヘッダー背景色 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            background-color: var(--bg-color);
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        header img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            border: none;
+            padding: 0;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                position: static !important;
+            }
+        }
+
+        nav {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        nav h2 {
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            background-color: transparent;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--accent-color);
+            border-radius: 0;
+            padding: 0 0 0.3rem 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        nav ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        nav ul li a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        main {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 2rem;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 10px 15px;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        h3 {
+            border-left: 5px solid var(--accent-color);
+            padding-left: 10px;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--th-bg);
+            width: 25%;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        code {
+            background-color: #f0eae1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="img/teamlogo.png" alt="チームロゴ" style="max-width: 1000px; width: 100%;">
+        <h1>要件定義書</h1>
+        <p>TODOリスト兼家計簿（家計簿＋日記）</p>
+    </header>
+
+    <div class="container">
+        <nav>
+            <h2>目次</h2>
+            <ul>
+                <li><a href="#overview">1. プロジェクト概要</a></li>
+                <li><a href="#sitemap">2. 画面構成・ルーティング</a></li>
+                <li><a href="#functional">3. 機能要件・仕様</a></li>
+                <li><a href="#resources">4. 参考画像・UI素材</a></li>
+                <li><a href="#prompt-constraints">5. AIプロンプト実装制約</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="overview">
+                <h2>1. プロジェクト概要</h2>
+                <table>
+                    <tr>
+                        <th>システム名称</th>
+                        <td>家計簿（家計簿＋TODOリスト＋日記）</td>
+                    </tr>
+                    <tr>
+                        <th>目的・コンセプト</th>
+                        <td>
+                            日々の家計・TODO、および日記を管理できるWebアプリケーション。<br>
+                            月の予算管理や日割りの使用可能額を可視化し、予算達成時には達成感を感じられる仕掛けを提供する。
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>想定技術スタック</th>
+                        <td>
+                            <ul>
+                                <li><strong>フロントエンド:</strong> HTML5, CSS3, JavaScript (ES6+), Chart.js (グラフ描画)</li>
+                                <li><strong>バックエンド:</strong> Python (FastAPI) または Node.js (Express)</li>
+                                <li><strong>データベース:</strong> PostgreSQL</li>
+                                <li><strong>認証方式:</strong> セッション認証 または JWT認証</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="sitemap">
+                <h2>2. 画面構成・ルーティング (サイトマップ)</h2>
+                <table>
+                    <tr>
+                        <th>画面・ページ名</th>
+                        <th>パス (URL)</th>
+                        <th>機能・詳細内容</th>
+                    </tr>
+                    <tr>
+                        <th>ログインページ</th>
+                        <td><code>/login</code></td>
+                        <td>
+                            <ul>
+                                <li>ユーザーID（メールアドレス）およびパスワード入力による認証</li>
+                                <li>ログイン成功時、カレンダー(Monthly)ページへ遷移</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>家計簿入力・予算設定ページ</th>
+                        <td><code>/budget</code></td>
+                        <td>
+                            <ul>
+                                <li><strong>月次予算設定:</strong> 該当月の「収入」「固定支出」「変動支出」「投資・貯蓄」の目標額を入力・保存</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>カレンダー(Monthly)ページ</th>
+                        <td><code>/calendar/monthly</code></td>
+                        <td>
+                            <ul>
+                                <li><strong>月単位収支一覧:</strong> 日ごとの合計支出を表示。日付クリックで Day ページへ遷移。</li>
+                                <li><strong>月の詳細・現時点の収支:</strong> 当月の累計収入・支出・投資貯蓄の表示</li>
+                                <li><strong>残使用可能額:</strong> 当月の残り使用可能額（月合計）および日割り残額のリアルタイム表示</li>
+                                <li><strong>モチベーションステータス:</strong> 日割り予算の使用率に応じた3段階ステータス表示</li>
+                                <li><strong>月間メモ欄:</strong> 自由記述テキスト</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>カレンダー(Day)ページ</th>
+                        <td><code>/calendar/day/:date</code></td>
+                        <td>
+                            <ul>
+                                <li>指定日（YYYY-MM-DD）の家計簿データ入力（費目別金額・メモ）</li>
+                                <li>指定日の日記記述・閲覧</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>TODOページ</th>
+                        <td><code>/todo</code></td>
+                        <td>
+                            <ul>
+                                <li><strong>タスク管理:</strong> 今月やること、買い物リストなどの一覧表示・追加・編集・削除</li>
+                                <li><strong>完了処理:</strong> 完了タスクはチェックボックスで判定し、テキストをグレーアウト＆打消し線表示</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>年月日支出分析ページ</th>
+                        <td><code>/analytics</code></td>
+                        <td>
+                            <ul>
+                                <li>指定した年月日の支出データ集計</li>
+                                <li>Chart.jsを用いた固定支出・変動支出の内訳（円グラフ／棒グラフ）の視覚化</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="functional">
+                <h2>3. 機能要件・ビジネスロジック仕様</h2>
+
+                <h3>3.1. 費目設定（マスタ固定）</h3>
+                <p>※ユーザーによる費目の新規追加・変更は不可とし、システム固定とする。</p>
+                <table>
+                    <tr>
+                        <th>分類</th>
+                        <th>設定費目一覧</th>
+                    </tr>
+                    <tr>
+                        <th>固定支出</th>
+                        <td>家賃、ガス代、電気代、水道代、通信費、保険、教育費、その他</td>
+                    </tr>
+                    <tr>
+                        <th>変動支出</th>
+                        <td>食費、衣服、趣味、交通費、医療費、交際費、美容費、日用品、その他</td>
+                    </tr>
+                    <tr>
+                        <th>収入 / 投資・貯蓄</th>
+                        <td>収入、投資貯蓄</td>
+                    </tr>
+                </table>
+
+                <h3>3.2. 入力UI・視覚化要件</h3>
+                <table>
+                    <tr>
+                        <th>項目</th>
+                        <th>詳細仕様</th>
+                    </tr>
+                    <tr>
+                        <th>入力インターフェース</th>
+                        <td>ボタン形式で「固定支出」「変動支出」「収入/投資」の分類を最初に選択し、対応する入力フォームに遷移・展開させる。</td>
+                    </tr>
+                    <tr>
+                        <th>データの視覚化</th>
+                        <td>年月日支出ページにて、カテゴリ別・費目別の支出割合をグラフ（円グラフ等）で動的に描画する。</td>
+                    </tr>
+                    <tr>
+                        <th>計算ロジック</th>
+                        <td>
+                            <ul>
+                                <li><code>当月利用可能残額</code> = 月の変動費予算 - 当月の変動費累計支出</li>
+                                <li><code>本日利用可能額（日割り）</code> = 当月利用可能残額 / 当月残日数（本日含む）</li>
+                                <li><code>本日使用率(%)</code> = (本日の変動費支出額 / 本日利用可能額) × 100</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>モチベーション要素<br>（ステータス判定基準）</th>
+                        <td>
+                            本日使用率(%)の範囲によって、表示するステータスアイコンを切り替える。
+                            <ul>
+                                <li><strong>良い (siseiyoi.png):</strong> 本日使用率 0% 〜 70% 未満</li>
+                                <li><strong>普通 (nesoberi.png):</strong> 本日使用率 70% 〜 100% 以下</li>
+                                <li><strong>悪い (nekoze.png):</strong> 本日使用率 100% 超（予算オーバー）</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <h3>3.3. DB要件（テーブル設計）</h3>
+                <table>
+                    <tr>
+                        <th>テーブル名</th>
+                        <th>物理名</th>
+                        <th>カラム定義 (物理名: 型 / 制約 / 説明)</th>
+                    </tr>
+                    <tr>
+                        <th>ユーザー</th>
+                        <td><code>users</code></td>
+                        <td>
+                            <code>id</code>: INTEGER (PK, AUTOINCREMENT)<br>
+                            <code>username</code>: TEXT (UNIQUE, NOT NULL)<br>
+                            <code>password_hash</code>: TEXT (NOT NULL)<br>
+                            <code>created_at</code>: DATETIME
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>カレンダー</th>
+                        <td><code>monthly_budgets</code></td>
+                        <td>
+                            <code>id</code>: INTEGER (PK)<br>
+                            <code>user_id</code>: INTEGER (FK -> users.id)<br>
+                            <code>year_month</code>: TEXT (NOT NULL, 例: '2026-04')<br>
+                            <code>income_target</code>: INTEGER (収入目標)<br>
+                            <code>fixed_budget</code>: INTEGER (固定費予算合計)<br>
+                            <code>variable_budget</code>: INTEGER (変動費予算合計)<br>
+                            <code>investment_target</code>: INTEGER (投資貯蓄目標)<br>
+                            <code>calendar_memo</code>: TEXT (月間メモ)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>収支・明細記録</th>
+                        <td><code>transactions</code></td>
+                        <td>
+                            <code>id</code>: INTEGER (PK)<br>
+                            <code>user_id</code>: INTEGER (FK -> users.id)<br>
+                            <code>date</code>: DATE (NOT NULL, 例: '2026-04-01')<br>
+                            <code>category_type</code>: TEXT (NOT NULL, 'fixed'|'variable'|'income'|'investment')<br>
+                            <code>category_name</code>: TEXT (NOT NULL, 例: '食費', '家賃')<br>
+                            <code>amount</code>: INTEGER (NOT NULL)<br>
+                            <code>money_memo</code>: TEXT
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>日記</th>
+                        <td><code>diaries</code></td>
+                        <td>
+                            <code>id</code>: INTEGER (PK)<br>
+                            <code>user_id</code>: INTEGER (FK -> users.id)<br>
+                            <code>date</code>: DATE (NOT NULL, UNIQUE per user)<br>
+                            <code>content</code>: TEXT (日記本文)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>TODOタスク</th>
+                        <td><code>todos</code></td>
+                        <td>
+                            <code>id</code>: INTEGER (PK)<br>
+                            <code>user_id</code>: INTEGER (FK -> users.id)<br>
+                            <code>category</code>: TEXT ('this_month'|'shopping'|'memo')<br>
+                            <code>title</code>: TEXT (NOT NULL, タスク内容)<br>
+                            <code>is_completed</code>: BOOLEAN (DEFAULT 0, 1=完了)<br>
+                            <code>due_date</code>: DATE<br>
+                            <code>created_at</code>: DATETIME<br>
+			    <code>todo_memo</code>: TEXT
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="resources">
+                <h2>4. 参考画像・UI素材</h2>
+                <h3>4.1. ステータス画像参照仕様</h3>
+                <table>
+                    <tr>
+                        <th>ステータス</th>
+                        <th>画像ファイルパス</th>
+                        <th>判定条件</th>
+                    </tr>
+                    <tr>
+                        <th>良い</th>
+                        <td><img src="img/siseiyoi.png" alt="ステータス「良い」アイコン" width="200"></td>
+                        <td>予算使用率 &lt; 70%</td>
+                    </tr>
+                    <tr>
+                        <th>普通</th>
+                        <td><img src="img/nesoberi.png" alt="ステータス「普通」アイコン" width="200"></td>
+                        <td>70% &le; 予算使用率 &le; 100%</td>
+                    </tr>
+                    <tr>
+                        <th>悪い</th>
+                        <td><img src="img/nekoze.png" alt="ステータス「悪い」アイコン" width="200"></td>
+                        <td>予算使用率 &gt; 100%</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section id="prompt-constraints">
+                <h2>5. AIプロンプト実装制約 (開発指示事項)</h2>
+                <table>
+                    <tr>
+                        <th>項目</th>
+                        <th>指示内容</th>
+                    </tr>
+                    <tr>
+                        <th>セキュリティ</th>
+                        <td>パスワードは必ず <code>bcrypt</code> 等でハッシュ化してデータベースに保存すること。</td>
+                    </tr>
+                    <tr>
+                        <th>エラーハンドリング</th>
+                        <td>画像ファイル（例: <code>img/siseiyoi.png</code> 等）が存在しない場合でも描画エラーを起こさず、フォールバックの絵文字（例: 良好: 姿勢良い, 普通: 寝そべり, 悪い: 猫背）を表示できる設計とすること。</td>
+                    </tr>
+                    <tr>
+                        <th>コード生成順序</th>
+                        <td>1. DBテーブル定義（DDL） &rarr; 2. バックエンドAPI実装 &rarr; 3. フロントエンド画面・UI実装 の順で生成を行うこと。</td>
+                    </tr>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 要件定義書 - TODOリスト兼家計簿</p>
+    </footer>
+
+</body>
+</html>
