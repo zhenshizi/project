@@ -96,7 +96,7 @@
 | **言語・ランタイム** | Java 25 (OpenJDK) |
 | **Webコンテナ / APサーバ** | Apache Tomcat 11 |
 | **バックエンドフレームワーク** | Java (Servlet / JSP / MVC) |
-| **データベース** | PostgreSQL 18.1（テーブル生成・データ投入用[create_tables.sql](create_sql)を同梱） |
+| **データベース** | PostgreSQL 18.1（テーブル生成・データ投入用[create_tables.sql](https://github.com/zhenshizi/project/blob/main/create_tables.sql)を同梱） |
 | **インフラ / ホスティング** | AWS (EC2) |
 | **統合開発環境 (IDE)** | Eclipse |
 | **DB管理・設計ツール** | A5:SQL Mk-2 |
@@ -110,7 +110,7 @@
 graph TD;
     subgraph Frontend["フロントエンド (Webブラウザ)"]
         UI["HTML5 / CSS3<br/>(画面レイアウト & ねこステータス表示)"]
-        JS["JavaScript (ES6+)<br/>(DOM操作 & イベント処理 & Chart.js描画)"]
+        JS["JavaScript (ES6+)<br/>(DOM操作 & イベント処理)"]
     end
 
     subgraph Backend["バックエンド (Java Web Server)"]
@@ -148,18 +148,18 @@ graph TD;
 
 AWS上にデプロイしており、実際に動作をご確認いただけます。
 
-👉 **[「ねこぜ家計簿」デモサイトはこちら](http://13.193.142.78/neko)**  
+👉 **[「ねこぜ家計簿」デモサイトはこちら](http://3.24.17.43/nekozekakeibo)**  
 *(※別タブで開く場合は `Ctrl + クリック` / `Cmd + クリック` 推奨)*
 
 > **テスト用ログイン情報**  
-> * **ID**: `guest_user@example.com`  
-> * **パスワード**: `password123`
+> * **ID**: `guestuser@example.com`  
+> * **パスワード**: `password`
 
 ---
 
 ## 📖 要件定義書・画面設計書
 
-👉 **[Web版 要件定義書・画面設計書はこちら（GitHub Pages）](https://hadano-nobuyuki.github.io/project/)**  
+👉 **[Web版 要件定義書・画面設計書はこちら（GitHub Pages）](https://github.com/zhenshizi/project/blob/main/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9%E6%9B%B8/%E8%A6%81%E4%BB%B6%E5%AE%9A%E7%BE%A9%E6%9B%B8.html)**  
 *(※リンクを別タブで開く場合は `Ctrl + クリック`（Macは `Cmd + クリック`）してください)*  
 *(※システム仕様・各画面イメージ・業務フローの詳細をWebページ形式でご覧いただけます)*
 
@@ -175,11 +175,11 @@ AWS上にデプロイしており、実際に動作をご確認いただけま�
 * **Java**: JDK25
 * **Webコンテナ / APサーバー**: Apache Tomcat 11
 * **データベース**: PostgreSQL 18.1
-  * ※ プログラムを実行する際に必要な環境として、データベースのテーブル生成用DDL（[`create_tables.sql`](create_tables.sql)）をプロジェクトルート直下に公開・同梱しています。
+  * ※ プログラムを実行する際に必要な環境として、データベースのテーブル生成用DDL（[`create_tables.sql`](https://github.com/zhenshizi/project/blob/main/create_tables.sql)）をプロジェクトルート直下に公開・同梱しています。
 
 ### 2. データベースのセットアップ
 1. PostgreSQLにて任意名のデータベースを作成します（例: `nekozebudget`）。
-2. 作成したデータベースに対して、プロジェクトルート直下の [`create_tables.sql`](create_tables.sql) を実行してテーブルを作成します。  
+2. 作成したデータベースに対して、プロジェクトルート直下の [`create_tables.sql`](https://github.com/zhenshizi/project/blob/main/create_tables.sql) を実行してテーブルを作成します。  
    *(※ A5:SQL Mk-2、pgAdmin、または `psql` コマンドライン等から実行可能です)*
 
 ### 3. データベース設定ファイルの作成
